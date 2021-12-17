@@ -8,7 +8,7 @@ function _encrypt($str)
 
     for ($i = 0; $i < strlen($str); $i++) {
         $a = ord($str[$i]);
-        $b = $a ^ 10;
+        $b = $a ^ 69;
 
         $encrypted .= chr($b);
     }
@@ -19,12 +19,12 @@ function _encrypt($str)
 
 function _decrypt($encoded)
 {
-    $encoded = base64_decode($encoded);
     $str = "";
+    $encoded = base64_decode($encoded);
 
     for ($i = 0; $i < strlen($encoded); $i++) {
         $b = ord($encoded[$i]);
-        $a = $b ^ 10;
+        $a = $b ^ 69;
 
         $str .= chr($a);
     }

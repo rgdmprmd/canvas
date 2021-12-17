@@ -24,6 +24,8 @@ class Auth extends CI_Controller
 
     public function ajaxLogin()
     {
+        print_r($this->input->post('data', null));
+        exit();
         $this->form_validation->set_rules('email', 'email', 'required|trim|valid_email');
         $this->form_validation->set_rules('password', 'password', 'required|trim');
 

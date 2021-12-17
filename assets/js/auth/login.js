@@ -5,6 +5,9 @@ $(function () {
 		let url = $(this).attr("action");
 		let formData = new FormData(this);
 
+		// console.log(formData);
+		// formData = formData.forEach((ex) => (ex = encrypt(ex)));
+
 		$.ajax({
 			url: url,
 			method: "POST",
