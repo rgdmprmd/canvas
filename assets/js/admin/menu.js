@@ -18,9 +18,29 @@ $(function () {
 				status: status,
 				search: search,
 			},
+			beforeSend: function (response) {
+				Swal.fire({
+					title: "Loading",
+					text: "Please wait, we working on it.",
+					imageUrl: base_url + "assets/img/loading_spinner.gif",
+					showConfirmButton: false,
+					allowOutsideClick: false,
+				});
+			},
 			success: function (response) {
+				Swal.close();
+
 				$("#table-menu tbody").html(response.row);
 				$(".paging-menu").html(response.message);
+			},
+			error: function (x, h, r) {
+				Swal.fire({
+					icon: "error",
+					title: "Oops!",
+					text: r,
+					showConfirmButton: true,
+					allowOutsideClick: false,
+				});
 			},
 		});
 	}
@@ -38,9 +58,29 @@ $(function () {
 				status: status,
 				search: search,
 			},
+			beforeSend: function (response) {
+				Swal.fire({
+					title: "Loading",
+					text: "Please wait, we working on it.",
+					imageUrl: base_url + "assets/img/loading_spinner.gif",
+					showConfirmButton: false,
+					allowOutsideClick: false,
+				});
+			},
 			success: function (response) {
+				Swal.close();
+
 				$("#table-submenu tbody").html(response.row);
 				$(".paging-submenu").html(response.message);
+			},
+			error: function (x, h, r) {
+				Swal.fire({
+					icon: "error",
+					title: "Oops!",
+					text: r,
+					showConfirmButton: true,
+					allowOutsideClick: false,
+				});
 			},
 		});
 	}
@@ -188,7 +228,21 @@ $(function () {
 			data: formData,
 			processData: false,
 			contentType: false,
+			beforeSend: function (response) {
+				$(".submitMenu").attr("disabled", true);
+
+				Swal.fire({
+					title: "Loading",
+					text: "Please wait, we working on it.",
+					imageUrl: base_url + "assets/img/loading_spinner.gif",
+					showConfirmButton: false,
+					allowOutsideClick: false,
+				});
+			},
 			success: function (response) {
+				Swal.close();
+				$(".submitMenu").attr("disabled", false);
+
 				if (response.result == false) {
 					$(".error_nama").html(response.message.menu);
 					$(".error_status").html(response.message.menu_status);
@@ -204,8 +258,14 @@ $(function () {
 					});
 				}
 			},
-			error: function (response) {
-				console.log("error cok ", response);
+			error: function (x, h, r) {
+				Swal.fire({
+					icon: "error",
+					title: "Oops!",
+					text: r,
+					showConfirmButton: true,
+					allowOutsideClick: false,
+				});
 			},
 		});
 	});
@@ -223,7 +283,21 @@ $(function () {
 			data: formData,
 			processData: false,
 			contentType: false,
+			beforeSend: function (response) {
+				$(".submitSubmenu").attr("disabled", true);
+
+				Swal.fire({
+					title: "Loading",
+					text: "Please wait, we working on it.",
+					imageUrl: base_url + "assets/img/loading_spinner.gif",
+					showConfirmButton: false,
+					allowOutsideClick: false,
+				});
+			},
 			success: function (response) {
+				Swal.close();
+				$(".submitSubmenu").attr("disabled", false);
+
 				if (response.result == false) {
 					$(".error_submenunama").html(response.message.submenu_nama);
 					$(".error_submenuurl").html(response.message.submenu_url);
@@ -242,8 +316,14 @@ $(function () {
 					});
 				}
 			},
-			error: function (response) {
-				console.log("error cok ", response);
+			error: function (x, h, r) {
+				Swal.fire({
+					icon: "error",
+					title: "Oops!",
+					text: r,
+					showConfirmButton: true,
+					allowOutsideClick: false,
+				});
 			},
 		});
 	});

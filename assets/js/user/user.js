@@ -61,8 +61,21 @@ $(function () {
 			processData: false,
 			contentType: false,
 			data: formData,
+			beforeSend: function (response) {
+				$("#change-form").attr("disabled", true);
+
+				Swal.fire({
+					title: "Loading",
+					text: "Please wait, we working on it.",
+					imageUrl: base_url + "assets/img/loading_spinner.gif",
+					showConfirmButton: false,
+					allowOutsideClick: false,
+				});
+			},
 			success: function (response) {
-				console.log(response);
+				Swal.close();
+				$("#change-form").attr("disabled", false);
+
 				if (response.result == 400) {
 					$(".old-password-error").html(response.message.oldPassword);
 					$(".newpassword-1-error").html(response.message.password1);
@@ -91,6 +104,15 @@ $(function () {
 					});
 				}
 			},
+			error: function (x, h, r) {
+				Swal.fire({
+					icon: "error",
+					title: "Oops!",
+					text: r,
+					showConfirmButton: true,
+					allowOutsideClick: false,
+				});
+			},
 		});
 	});
 
@@ -111,8 +133,21 @@ $(function () {
 			mimeType: "multipart/form-data",
 			contentType: false,
 			processData: false,
+			beforeSend: function (response) {
+				$("#profile-submit").attr("disabled", true);
+
+				Swal.fire({
+					title: "Loading",
+					text: "Please wait, we working on it.",
+					imageUrl: base_url + "assets/img/loading_spinner.gif",
+					showConfirmButton: false,
+					allowOutsideClick: false,
+				});
+			},
 			success: function (hasil) {
-				console.log(hasil);
+				Swal.close();
+				$("#profile-submit").attr("disabled", false);
+
 				if (hasil.result == 400) {
 					$(".error_nama").html(hasil.message.name);
 					$(".error_file").html(hasil.message.img);
@@ -128,8 +163,14 @@ $(function () {
 					});
 				}
 			},
-			error: function (hasil) {
-				console.log("error", hasil);
+			error: function (x, h, r) {
+				Swal.fire({
+					icon: "error",
+					title: "Oops!",
+					text: r,
+					showConfirmButton: true,
+					allowOutsideClick: false,
+				});
 			},
 		});
 	});

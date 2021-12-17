@@ -4,8 +4,28 @@ $(function () {
 			url: base_url + "admin/ajaxGetAllRole",
 			method: "POST",
 			dataType: "JSON",
+			beforeSend: function (response) {
+				Swal.fire({
+					title: "Loading",
+					text: "Please wait, we working on it.",
+					imageUrl: base_url + "assets/img/loading_spinner.gif",
+					showConfirmButton: false,
+					allowOutsideClick: false,
+				});
+			},
 			success: function (hasil) {
+				Swal.close();
+
 				$("#table-role tbody").html(hasil);
+			},
+			error: function (x, h, r) {
+				Swal.fire({
+					icon: "error",
+					title: "Oops!",
+					text: r,
+					showConfirmButton: true,
+					allowOutsideClick: false,
+				});
 			},
 		});
 	}
@@ -35,9 +55,29 @@ $(function () {
 			data: {
 				idJson: id,
 			},
+			beforeSend: function (response) {
+				Swal.fire({
+					title: "Loading",
+					text: "Please wait, we working on it.",
+					imageUrl: base_url + "assets/img/loading_spinner.gif",
+					showConfirmButton: false,
+					allowOutsideClick: false,
+				});
+			},
 			success: function (hasil) {
+				Swal.clos();
+
 				$("#role_id").val(hasil.role_id);
 				$("#role_nama").val(hasil.role_nama);
+			},
+			error: function (x, h, r) {
+				Swal.fire({
+					icon: "error",
+					title: "Oops!",
+					text: r,
+					showConfirmButton: true,
+					allowOutsideClick: false,
+				});
 			},
 		});
 	});
@@ -52,10 +92,29 @@ $(function () {
 			data: {
 				role_id: role_id,
 			},
+			beforeSend: function (response) {
+				Swal.fire({
+					title: "Loading",
+					text: "Please wait, we working on it.",
+					imageUrl: base_url + "assets/img/loading_spinner.gif",
+					showConfirmButton: false,
+					allowOutsideClick: false,
+				});
+			},
 			success: function (hasil) {
-				console.log(hasil);
+				Swal.close();
+
 				$(".role-nama").html(hasil.role.role_nama);
 				$("#table-access tbody").html(hasil.menu);
+			},
+			error: function (x, h, r) {
+				Swal.fire({
+					icon: "error",
+					title: "Oops!",
+					text: r,
+					showConfirmButton: true,
+					allowOutsideClick: false,
+				});
 			},
 		});
 	});
@@ -73,8 +132,17 @@ $(function () {
 				menuId: menuId,
 				roleId: roleId,
 			},
+			beforeSend: function (response) {
+				Swal.fire({
+					title: "Loading",
+					text: "Please wait, we working on it.",
+					imageUrl: base_url + "assets/img/loading_spinner.gif",
+					showConfirmButton: false,
+					allowOutsideClick: false,
+				});
+			},
 			success: function (hasil) {
-				console.log(hasil);
+				Swal.close();
 
 				Swal.fire({
 					icon: "success",
@@ -82,6 +150,15 @@ $(function () {
 					padding: "2em",
 					title: "Access changed!",
 					html: "Congratulations, you changed some menu access.",
+				});
+			},
+			error: function (x, h, r) {
+				Swal.fire({
+					icon: "error",
+					title: "Oops!",
+					text: r,
+					showConfirmButton: true,
+					allowOutsideClick: false,
 				});
 			},
 		});
