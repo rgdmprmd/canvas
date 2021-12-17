@@ -16,7 +16,7 @@ class Admin extends CI_Controller
         $email = $this->session->userdata('email');
         $data['user'] = $this->db->get_where('tb_users', ['user_email' => $email])->row_array();
         $data['title'] = 'Dashboard';
-        
+
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
@@ -44,28 +44,28 @@ class Admin extends CI_Controller
         $search = $this->input->post('search', true);
         $status = $this->input->post('status', true);
         $offset = $this->uri->segment(3, 0);
-        $limit  = 2;
-        
+        $limit  = 10;
+
         $menu = $this->admin->getAllMenu($search, $status, $limit, $offset);
         $tr = '';
         $paging = '';
-        
-        if($menu['total'] > 0) {
+
+        if ($menu['total'] > 0) {
             $total = $menu['total'];
             $i = $offset + 1;
-            
-            foreach($menu['data'] as $m) {
+
+            foreach ($menu['data'] as $m) {
                 ($m['menu_status'] != 1) ? $text_color = "text-danger" : $text_color = "";
-                
+
                 $tr .= '<tr>';
-                $tr .= '<td class="text-center '.$text_color.'">'.$i++.'</td>';
-                $tr .= '<td class="text-left '.$text_color.'">'.ucwords($m['menu_nama']).'</td>';
+                $tr .= '<td class="text-center ' . $text_color . '">' . $i++ . '</td>';
+                $tr .= '<td class="text-left ' . $text_color . '">' . ucwords($m['menu_nama']) . '</td>';
                 $tr .= '<td class="text-center">';
-                $tr .= '<a href="" class="btn btn-sm btn-success px-3 menu-edit" title="Edit menu" data-id="'.$m['menu_id'].'" data-toggle="modal" data-target="#newMenuModal"><i class="fas fa-edit"></i></a>';
+                $tr .= '<a href="" class="btn btn-sm btn-success px-3 menu-edit" title="Edit menu" data-id="' . $m['menu_id'] . '" data-toggle="modal" data-target="#newMenuModal"><i class="fas fa-edit"></i></a>';
                 $tr .= '</td>';
-                $tr .= '</tr>';        
+                $tr .= '</tr>';
             }
-            
+
             $paging .= $this->_paging($total, $limit, 'ajaxGetAllMenu');
             $paging .= '<span class="page-info">Displaying ' . ($i - 1) . ' of ' . $total . ' data</span>';
         } else {
@@ -73,7 +73,7 @@ class Admin extends CI_Controller
             $tr .= '<td colspan="4">No data</td>';
             $tr .= '</tr>';
         }
-        
+
         $result = [
             'result' => true,
             'message' => $paging,
@@ -88,28 +88,28 @@ class Admin extends CI_Controller
         $search = $this->input->post('search', true);
         $status = $this->input->post('status', true);
         $offset = $this->uri->segment(3, 0);
-        $limit  = 2;
-        
+        $limit  = 10;
+
         $submenu = $this->admin->getAllSubmenu($search, $status, $limit, $offset);
         $tr = '';
         $paging = '';
-        
-        if($submenu['total'] > 0) {
+
+        if ($submenu['total'] > 0) {
             $total = $submenu['total'];
             $i = $offset + 1;
-            
-            foreach($submenu['data'] as $m) {
+
+            foreach ($submenu['data'] as $m) {
                 ($m['submenu_status'] != 1) ? $text_color = "text-danger" : $text_color = "";
 
                 $tr .= '<tr>';
-                $tr .= '<td class="text-center '.$text_color.'">'.$i++.'</td>';
-                $tr .= '<td class="text-left '.$text_color.'"><i class="'.$m['submenu_icon'].'"></i> '.$m['submenu_nama'].'</td>';
-                $tr .= '<td class="text-left '.$text_color.'">'.$m['menu_nama'].'</td>';
-                $tr .= '<td class="text-left '.$text_color.'">'.$m['submenu_url'].'</td>';
+                $tr .= '<td class="text-center ' . $text_color . '">' . $i++ . '</td>';
+                $tr .= '<td class="text-left ' . $text_color . '"><i class="' . $m['submenu_icon'] . '"></i> ' . $m['submenu_nama'] . '</td>';
+                $tr .= '<td class="text-left ' . $text_color . '">' . $m['menu_nama'] . '</td>';
+                $tr .= '<td class="text-left ' . $text_color . '">' . $m['submenu_url'] . '</td>';
                 $tr .= '<td class="text-center">';
-                $tr .= '<a href="" class="btn btn-sm btn-success px-3 submenu-edit" data-id="'.$m['submenu_id'].'" data-toggle="modal" data-target="#newSubMenuModal"><i class="fas fa-edit"></i></a>';
+                $tr .= '<a href="" class="btn btn-sm btn-success px-3 submenu-edit" data-id="' . $m['submenu_id'] . '" data-toggle="modal" data-target="#newSubMenuModal"><i class="fas fa-edit"></i></a>';
                 $tr .= '</td>';
-                $tr .= '</tr>';        
+                $tr .= '</tr>';
             }
 
             $paging .= $this->_paging($total, $limit, 'ajaxGetAllSubmenu');
@@ -149,8 +149,8 @@ class Admin extends CI_Controller
     {
         $this->form_validation->set_rules('menu', 'nama', 'required|trim');
         $this->form_validation->set_rules('menu_status', 'status', 'required|trim');
-        
-        if($this->form_validation->run() == FALSE) {
+
+        if ($this->form_validation->run() == FALSE) {
             $errrr = [
                 'menu' => form_error('menu', '<small class="text-danger ml-3">', '</small>'),
                 'menu_status' => form_error('menu_status', '<small class="text-danger ml-3">', '</small>'),
@@ -160,12 +160,12 @@ class Admin extends CI_Controller
                 'result' => false,
                 'message' => $errrr
             ];
-    
+
             echo json_encode($result);
         } else {
             $menu_nama = $this->input->post('menu', true);
             $menu_status = $this->input->post('menu_status', true);
-            
+
             $data = [
                 'menu_nama' => $menu_nama,
                 'menu_url' => $menu_nama,
@@ -176,14 +176,14 @@ class Admin extends CI_Controller
                 'id_update' => $this->session->userdata('email'),
                 'dt_update' => Date('Y-m-d H:i:s'),
             ];
-            
+
             $this->admin->insert($data, 'tb_menu');
 
             $result = [
                 'result' => true,
                 'message' => 'Tambah'
             ];
-            
+
             echo json_encode($result);
         }
     }
@@ -192,8 +192,8 @@ class Admin extends CI_Controller
     {
         $this->form_validation->set_rules('menu', 'Menu', 'required|trim');
         $this->form_validation->set_rules('menu_status', 'status', 'required|trim');
-        
-        if($this->form_validation->run() == FALSE) {
+
+        if ($this->form_validation->run() == FALSE) {
             $errrr = [
                 'menu' => form_error('menu', '<small class="text-danger ml-3">', '</small>'),
                 'menu_status' => form_error('menu_status', '<small class="text-danger ml-3">', '</small>'),
@@ -203,7 +203,7 @@ class Admin extends CI_Controller
                 'result' => false,
                 'message' => $errrr
             ];
-    
+
             echo json_encode($result);
         } else {
             $menu_id = $this->input->post('menu_id', true);
@@ -216,18 +216,18 @@ class Admin extends CI_Controller
                 'id_update' => $this->session->userdata('email'),
                 'dt_update' => date('Y-m-d H:i:s'),
             ];
-            
+
             $this->admin->update($data, 'tb_menu', $menu_id, 'menu_id');
 
             $result = [
                 'result' => true,
                 'message' => 'Update'
             ];
-            
+
             echo json_encode($result);
         }
     }
-    
+
     public function addSubmenu()
     {
         $this->form_validation->set_rules('submenu_nama', 'Submenu', 'required|trim');
@@ -235,8 +235,8 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('submenu_icon', 'Submenu Icon', 'required|trim');
         $this->form_validation->set_rules('submenu_status', 'Submenu Status', 'required|trim');
         $this->form_validation->set_rules('id_menu', 'Menu', 'required|trim');
-        
-        if($this->form_validation->run() == FALSE) {
+
+        if ($this->form_validation->run() == FALSE) {
             $errrr = [
                 'submenu_nama' => form_error('submenu_nama', '<small class="text-danger ml-3">', '</small>'),
                 'submenu_url' => form_error('submenu_url', '<small class="text-danger ml-3">', '</small>'),
@@ -249,7 +249,7 @@ class Admin extends CI_Controller
                 'result' => false,
                 'message' => $errrr
             ];
-    
+
             echo json_encode($result);
         } else {
             $submenu_nama = $this->input->post('submenu_nama', true);
@@ -269,14 +269,14 @@ class Admin extends CI_Controller
                 'id_update' => $this->session->userdata('email'),
                 'dt_update' => date('Y-m-d H:i:s'),
             ];
-            
+
             $this->admin->insert($data, 'tb_submenu');
-            
+
             $result = [
                 'result' => true,
                 'message' => 'Tambah'
             ];
-            
+
             echo json_encode($result);
         }
     }
@@ -288,8 +288,8 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('submenu_icon', 'Submenu Icon', 'required|trim');
         $this->form_validation->set_rules('submenu_status', 'Submenu Status', 'required|trim');
         $this->form_validation->set_rules('id_menu', 'Menu ID', 'required|trim');
-        
-        if($this->form_validation->run() == FALSE) {
+
+        if ($this->form_validation->run() == FALSE) {
             $errrr = [
                 'submenu_nama' => form_error('submenu_nama', '<small class="text-danger ml-3">', '</small>'),
                 'submenu_url' => form_error('submenu_url', '<small class="text-danger ml-3">', '</small>'),
@@ -302,7 +302,7 @@ class Admin extends CI_Controller
                 'result' => false,
                 'message' => $errrr
             ];
-    
+
             echo json_encode($result);
         } else {
             $submenu_id = $this->input->post('submenu_id', true);
@@ -321,14 +321,14 @@ class Admin extends CI_Controller
                 'id_update' => $this->session->userdata('email'),
                 'dt_update' => date('Y-m-d H:i:s'),
             ];
-            
+
             $this->admin->update($data, 'tb_submenu', $submenu_id, 'submenu_id');
-            
+
             $result = [
                 'result' => true,
                 'message' => 'Update'
             ];
-            
+
             echo json_encode($result);
         }
     }
@@ -352,19 +352,19 @@ class Admin extends CI_Controller
     {
         $role = $this->admin->getAllRole();
         $tr = '';
-        
-        if($role) {
+
+        if ($role) {
             $i = 1;
-            
-            foreach($role as $r) {
+
+            foreach ($role as $r) {
                 $tr .= '<tr>';
-                $tr .= '<td class="text-center">'.$i++.'</td>';
-                $tr .= '<td class="text-left">'.$r['role_nama'].'</td>';
+                $tr .= '<td class="text-center">' . $i++ . '</td>';
+                $tr .= '<td class="text-left">' . $r['role_nama'] . '</td>';
                 $tr .= '<td class="text-center">';
-                $tr .= '<a href="" class="btn btn-sm btn-success px-3 role-edit" data-id="'.$r['role_id'].'" data-toggle="modal" data-target="#roleModal"><i class="fas fa-fw fa-edit"></i></a>';
-                $tr .= '<a href="" class="btn btn-sm btn-primary px-3 role-access ml-1" data-id="'.$r['role_id'].'" data-toggle="modal" data-target="#accessModal"><i class="fas fa-fw fa-lock"></i></a>';
+                $tr .= '<a href="" class="btn btn-sm btn-success px-3 role-edit" data-id="' . $r['role_id'] . '" data-toggle="modal" data-target="#roleModal"><i class="fas fa-fw fa-edit"></i></a>';
+                $tr .= '<a href="" class="btn btn-sm btn-primary px-3 role-access ml-1" data-id="' . $r['role_id'] . '" data-toggle="modal" data-target="#accessModal"><i class="fas fa-fw fa-lock"></i></a>';
                 $tr .= '</td>';
-                $tr .= '</tr>';    
+                $tr .= '</tr>';
             }
         } else {
             $tr .= '<tr>';
@@ -389,17 +389,17 @@ class Admin extends CI_Controller
         $role = $this->admin->getRoleById($role_id);
         $menu = $this->admin->getMenu(2);
         $tr = '';
-        
-        if($menu) {
+
+        if ($menu) {
             $i = 1;
-            
-            foreach($menu as $m) {
+
+            foreach ($menu as $m) {
                 $tr .= '<tr>';
-                $tr .= '<td class="text-center">'.$i++.'</td>';
-                $tr .= '<td class="text-center">'.$m['menu_nama'].'</td>';
+                $tr .= '<td class="text-center">' . $i++ . '</td>';
+                $tr .= '<td class="text-center">' . $m['menu_nama'] . '</td>';
                 $tr .= '<td class="text-center">';
                 $tr .= '<div class="form-check">';
-                $tr .= '<input class="form-check-input cekboxs" type="checkbox" '.check_access($role_id, $m['menu_id']).' data-role="'.$role_id.'" data-menu="'.$m['menu_id'].'">';
+                $tr .= '<input class="form-check-input cekboxs" type="checkbox" ' . check_access($role_id, $m['menu_id']) . ' data-role="' . $role_id . '" data-menu="' . $m['menu_id'] . '">';
                 $tr .= '</div>';
                 $tr .= '</td>';
                 $tr .= '</tr>';
@@ -425,7 +425,7 @@ class Admin extends CI_Controller
 
         $getAccess = $this->admin->getAccess($data);
 
-        if($getAccess < 1) {
+        if ($getAccess < 1) {
             $insert = [
                 'role_id' => $role_id,
                 'menu_id' => $menu_id,
@@ -434,7 +434,7 @@ class Admin extends CI_Controller
                 'id_update' => $this->session->userdata('email'),
                 'dt_update' => Date('Y-m-d H:i:s'),
             ];
-            
+
             $this->admin->setAccess($insert);
         } else {
             $this->admin->dropAccess($data);

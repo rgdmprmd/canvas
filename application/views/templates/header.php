@@ -32,6 +32,7 @@
     <script src="<?= base_url(); ?>assets/js/bootstrap-datepicker.min.js"></script>
     <script src="<?= base_url(); ?>assets/js/autoNumeric4/autoNumeric.js"></script>
     <script src="<?= base_url(); ?>assets/js/select2.min.js"></script>
+    <script src="<?= base_url(); ?>assets/js/main.js"></script>
     <!-- <script src="<?= base_url(); ?>assets/js/script.js"></script>
     <script src="<?= base_url(); ?>assets/js/myswal.js"></script> -->
 
