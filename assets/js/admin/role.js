@@ -65,7 +65,7 @@ $(function () {
 				});
 			},
 			success: function (hasil) {
-				Swal.clos();
+				Swal.close();
 
 				$("#role_id").val(hasil.role_id);
 				$("#role_nama").val(hasil.role_nama);
